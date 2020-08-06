@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>v Oh e</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input v-bind:value="message + 'dsf' "/>
+    <input :value="message"/>
+    {{message}}
+    <div v-if=" seeFlag ">
+        Vif text {{message}}
+    </div>
+    <ul>
+        <ol v-for=" cl in colors" v-bind:style=" 'background: ' + cl">{{cl}}</ol>
+    </ul>
+    <div v-on:click=" dubText() ">{{mtText}}</div>
+    component example:
+    <ul>
+        <li-item
+                v-for="cl in colors"
+                v-bind:textmes=" cl "
+        ></li-item>
+    </ul>
+
+    computed vars: {{reversedMessage}}
+
+
+    watchers :
+    <div>
+        <input type="text" v-model="question"/>,
+        <span>
+            if class atribution
+        </span>
+        <div v-bind:class=" { 'text-danger' :  question.length > 6 } ">question var changed {{ question_counter }}</div>
+
+
+        <div @click="switchTemplates">
+            <template v-if="showTemplate">
+                <h1>Title</h1>
+                <p>Paragraph 1</p>
+                <p>Paragraph 2</p>
+            </template>
+            <template v-else>
+                <h1> no money </h1>
+            </template>
+        </div>
+
+        <h2> Key down event </h2>
+        <textarea v-on:click.ctrl="eventListner('Conttttrol click')" v-on:click.middle="eventListner('middle click')"
+                  v-on:click.meta="eventListner('Meta click')" v-on:keyup.ctrl.y="eventListner('Conttttrol YYYY ')"
+                  placeholder="Area for event test" style="width: 100%; height: 200px"></textarea>
+
+
+        <h1> Fine model </h1>
+
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+
+        <div>Checked names: {{ checkedNames }}</div>
+
+    </div>
+
+    <sub-component str="click here "></sub-component>
+
+
+</div>
+<style>
+    .text-danger {
+        color: #f00;
+    }
+</style>
+
+
+<script>
+
+
+    Vue.component('li-item', {
+        template: '<li> {{ textmes }} </li>',
+        props: ['textmes'],
+    })
+
+    Vue.component('sub-component', {
+        template: '<div><div @click="evClick()" > {{ str }} </div> <div> {{counter}} </div></div>',
+        props: ['str'],
+        data: function () {
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            evClick: function () {
+                this.counter++
+            }
+        }
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            seeFlag: true,
+            colors: [
+                "#fff",
+                "#f0f",
+                "#ff0",
+                "#0ff",
+            ],
+            mtText: 'Bar war',
+            question: 'bigmic',
+            question_counter: 0,
+            showTemplate: true,
+            checkedNames: []
+        },
+        methods: {
+            dubText: function () {
+                this.mtText += this.mtText;
+            },
+            switchTemplates: function () {
+                this.showTemplate = !this.showTemplate;
+            },
+            eventListner: function (mes) {
+                alert(mes)
+            }
+
+        },
+        computed: {
+            // a computed getter
+            reversedMessage: function () {
+                // `this` points to the vm instance
+                return this.message.split('').reverse().join('')
+            }
+        },
+        watch: {
+            // whenever question changes, this function will run
+            question: function (newQuestion, oldQuestion) {
+                this.question_counter++;
+            },
+            checkedNames: function () {
+                console.log(this.checkedNames);
+            }
+        },
+
+    })
+
+
+    console.log(app.message);
+
+</script>
+</body>
+</html>
